@@ -68,7 +68,7 @@
 <h1>Welcome to GoogleURLCleaner!</h1>
 
 <div class="ui-widget">
-	<p>Put in a URL of a Google search and press the button to get a crap-free version.<br />
+	<p>Put in a URL of a Google search or YouTube video and press the button to get a crap-free version.<br />
 	<a href="https://github.com/PotcFdk/GoogleURLCleaner" target="_blank">Visit this project on GitHub</a>
 		in case you want to improve this or if are interested in the source code.</p>
 </div>
@@ -86,16 +86,20 @@
 <script src="jquery-ui.js"></script>
 <script>
 	function getCleanUrl (url) {
-		var regex = /(https?\:\/\/)?(www\.)?google\.[^\/]+\/search\?.*q=([^&]+)/;
-		if (url.match(regex)) {
-			var query_string = url.match(regex)[3];
+		var query_string = url.match(/(https?\:\/\/)?(www\.)?google\.[^\/]+\/search\?.*q=([^&]+)/);
+		if (query_string) {
 			var search_type  = url.match(/[?&]tbm=(isch|shop|vid|nws|bks|flm|app)/);
 			
-			var clean_url = "https://google.com/search?q=" + query_string;
+			var clean_url = "https://google.com/search?q=" + query_string[3];
 			if (search_type)
 				clean_url += "&tbm=" + search_type[1];
 			
 			return clean_url;
+		}
+		
+		query_string = url.match(/(https?\:\/\/)?(www\.)?youtube\.[^\/]+\/watch\?.*v=([^&]+)/);
+		if (query_string) {
+			return "https://youtube.com/watch?v=" + query_string[3];
 		}
 	}
 	

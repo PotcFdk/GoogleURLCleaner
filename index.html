@@ -89,11 +89,11 @@
 		var regex = /(https?\:\/\/)?(www\.)?google\.[^\/]+\/search\?.*q=([^&]+)/;
 		if (url.match(regex)) {
 			var query_string = url.match(regex)[3];
-			var image_search = url.match(/[?&]tbm=isch/);
+			var search_type  = url.match(/[?&]tbm=(isch|shop|vid|nws|bks|flm|app)/);
 			
 			var clean_url = "https://google.com/search?q=" + query_string;
-			if (image_search)
-				clean_url += "&tbm=isch";
+			if (search_type)
+				clean_url += "&tbm=" + search_type[1];
 			
 			return clean_url;
 		}
